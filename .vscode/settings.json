@@ -1,0 +1,64 @@
+{
+  "todohighlight.isEnable": true,
+  "todohighlight.isCaseSensitive": false,
+  "todohighlight.keywords": [
+    {
+      "text": "TODO",
+      "color": "#fff",
+      "backgroundColor": "#ffbd2a",
+      "overviewRulerColor": "grey"
+    },
+    {
+      "text": "FIXME",
+      "color": "#fff",
+      "backgroundColor": "#f06292",
+      "overviewRulerColor": "red"
+    },
+    {
+      "text": "NOTE",
+      "color": "#fff",
+      "backgroundColor": "#448aff",
+      "overviewRulerColor": "blue"
+    },
+    {
+      "text": "HACK",
+      "color": "#fff",
+      "backgroundColor": "#db4437",
+      "overviewRulerColor": "red"
+    },
+    {
+      "text": "XXX",
+      "color": "#fff",
+      "backgroundColor": "#ff9800",
+      "overviewRulerColor": "orange"
+    }
+  ],
+  "todohighlight.keywordsPattern": "TODO|FIXME|NOTE|HACK|XXX",
+  "todohighlight.defaultStyle": {
+    "color": "#fff",
+    "backgroundColor": "#ffbd2a",
+    "overviewRulerColor": "grey"
+  },
+  "todohighlight.include": [
+    "**/*.js",
+    "**/*.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.html",
+    "**/*.php",
+    "**/*.css",
+    "**/*.scss",
+    "**/*.vue",
+    "**/*.md"
+  ],
+  "todohighlight.exclude": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/.vscode/**",
+    "**/.git/**"
+  ],
+  "todohighlight.maxFilesForSearch": 5120,
+  "todohighlight.toggleURI": false
+}

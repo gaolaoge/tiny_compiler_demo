@@ -21,6 +21,7 @@ function parser(tokens) {
 
       left = {
         type: CalculationTypeMap[operator.type],
+        value: operator.value,
         left,
         right,
       };

@@ -36,7 +36,7 @@ function App() {
         value={output}
         readOnly
       ></textarea> */}
-      <Compiler code={output} />
+      <Compiler input={output} />
     </div>
   );
 }
