@@ -1,18 +1,15 @@
 import { useState } from "react";
 
-import { tokenizer } from "./compiler/token";
-import { parser } from "./compiler/parser";
-import { generator } from "./compiler/generator";
+import { Compiler } from "./compiler";
 import "./App.css";
 
 function App() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
+
   const handleCompile = () => {
-    const tokens = tokenizer(input);
-    const ast = parser(tokens);
-    const code = generator(ast);
-    setOutput(code);
+    // const res = Compiler(input);
+    setOutput(input);
   };
 
   const handleReset = () => {
@@ -33,12 +30,13 @@ function App() {
       </div>
       <button onClick={handleCompile}>Compile</button>
       <button onClick={handleReset}>Reset</button>
-      <textarea
+      {/* <textarea
         id="output"
         placeholder="Output"
         value={output}
         readOnly
-      ></textarea>
+      ></textarea> */}
+      <Compiler code={output} />
     </div>
   );
 }

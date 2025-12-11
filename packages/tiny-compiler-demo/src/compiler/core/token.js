@@ -1,3 +1,5 @@
+import { CalculationSymbol } from "../types";
+
 function tokenizer(input) {
   let current = 0;
   const tokens = [];
@@ -12,7 +14,7 @@ function tokenizer(input) {
 
     if (char === "+") {
       tokens.push({
-        type: "plus",
+        type: CalculationSymbol.Plus,
         value: char,
       });
       current++;
@@ -21,7 +23,7 @@ function tokenizer(input) {
 
     if (char === "-") {
       tokens.push({
-        type: "minus",
+        type: CalculationSymbol.Minus,
         value: char,
       });
       current++;
@@ -91,8 +93,8 @@ function tokenizer(input) {
       continue;
     }
 
-    if (/[A-z]/.test(char)) {
-      let value = char;
+    if (/[a-zA-Z]/.test(char)) {
+      let value = "";
       while (/[A-z]/.test(char)) {
         value += char;
         char = input[++current];
