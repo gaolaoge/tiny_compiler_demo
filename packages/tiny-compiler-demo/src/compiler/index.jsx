@@ -7,18 +7,18 @@ import { generator } from "./core/generator";
 import { SlateEditor } from "./ui";
 
 export const Compiler = memo(({ input }) => {
-  console.log("input: ", input);
+  console.log("Compiler input: ", input);
   const tokens = tokenizer(input);
-  console.log("tokens: ", tokens);
+  console.log("Compiler tokens: ", tokens);
   const ast = parser(tokens);
-  console.log("ast: ", ast);
-  let code = generator(ast);
-  console.log("code: ", code);
-  code = semanticAnalyzer(code);
-  console.log("code: ", code);
-  console.log("--------------------------------");
+  console.log("Compiler ast: ", ast);
+  const code = generator(ast);
+  console.log("Compiler code: ", code);
+  const dsl = semanticAnalyzer(code);
+  console.log("Compiler dsl: ", dsl);
+  console.log("Compiler --------------------------------");
 
-  return <SlateEditor input={input} />;
+  return <SlateEditor ast={ast} />;
 });
 Compiler.displayName = "Compiler";
 

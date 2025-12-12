@@ -1,3 +1,5 @@
+# 能力
+
 背景：Compiler 是 1 个公式编辑器，接收用户输入内容，识别为公式后数据持久化，只在服务端执行；
 Compiler 能力分层：
 
@@ -40,3 +42,92 @@ Compiler 能力分层：
 6. 测试：单测 & 集成测试
 
 7. 性能监控
+
+# dsl 协议
+
+```js
+const dsl = [
+  {
+    type: ElementType.PARAGRAPH,
+    children: [
+      {
+        type: ElementType.STRING,
+        children: [{ text: "变量类型示例：" }],
+        value: "变量类型示例：",
+      },
+      {
+        type: ElementType.VARIABLE,
+        children: [{ text: "userName" }],
+        valueType: VariableValueType.STRING,
+      },
+      {
+        type: ElementType.CHARACTER,
+        children: [{ text: " = " }],
+      },
+      {
+        type: ElementType.STRING,
+        children: [{ text: '"John"' }],
+        value: "John",
+      },
+    ],
+  },
+  {
+    type: ElementType.PARAGRAPH,
+    children: [
+      {
+        type: ElementType.VARIABLE,
+        children: [{ text: "age" }],
+        valueType: VariableValueType.NUMBER,
+      },
+      {
+        type: ElementType.CHARACTER,
+        children: [{ text: " = " }],
+      },
+      {
+        type: ElementType.NUMBER,
+        children: [{ text: "25" }],
+        value: 25,
+      },
+    ],
+  },
+  {
+    type: ElementType.PARAGRAPH,
+    children: [
+      // 多值记录类型变量
+      {
+        type: ElementType.VARIABLE,
+        children: [{ text: "users" }],
+        valueType: VariableValueType.MULTI_RECORD,
+        schema: "UserSchema",
+      },
+    ],
+  },
+  {
+    type: ElementType.PARAGRAPH,
+    children: [
+      // 函数调用示例
+      {
+        type: ElementType.FUNCTION_CALL,
+        name: "add",
+        children: [
+          {
+            type: ElementType.NUMBER,
+            children: [{ text: "2" }],
+            value: 2,
+          },
+          {
+            type: ElementType.CHARACTER,
+            children: [{ text: ", " }],
+          },
+          {
+            type: ElementType.NUMBER,
+            children: [{ text: "3" }],
+            value: 3,
+          },
+        ],
+        hoverText: "加法函数：计算两个数的和",
+      },
+    ],
+  },
+];
+```

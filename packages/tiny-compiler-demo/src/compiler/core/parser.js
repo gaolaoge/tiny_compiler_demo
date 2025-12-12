@@ -2,6 +2,7 @@ import {
   CalculationType,
   CalculationSymbol,
   CalculationTypeMap,
+  ElementType,
 } from "../types";
 
 function parser(tokens) {
@@ -36,7 +37,7 @@ function parser(tokens) {
     if (token.type === "number") {
       current++;
       return {
-        type: "NumberLiteral",
+        type: ElementType.NUMBER,
         value: token.value,
       };
     }
@@ -44,7 +45,7 @@ function parser(tokens) {
     if (token.type === "string") {
       current++;
       return {
-        type: "StringLiteral",
+        type: ElementType.STRING,
         value: token.value,
       };
     }
@@ -53,12 +54,12 @@ function parser(tokens) {
   };
 
   const ast = {
-    type: "Program",
-    body: [],
+    type: ElementType.PARAGRAPH,
+    children: [],
   };
 
   while (current < tokens.length) {
-    ast.body.push(parseExpression());
+    ast.children.push(parseExpression());
   }
 
   return ast;

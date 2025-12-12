@@ -9,7 +9,6 @@
  */
 
 const defaultStyle = {
-  display: "inline-block",
   padding: "0 4px",
 };
 

@@ -5,7 +5,7 @@
  * 核心思想是将文档表示为嵌套的数据结构（类似虚拟 DOM），而不是直接操作 DOM。
  */
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 // createEditor: 创建编辑器实例的核心函数
 import { createEditor } from "slate";
 // Slate: 提供编辑器上下文（Context）的组件，类似于 React Context Provider
@@ -26,93 +26,12 @@ import { Popover } from "./Popover";
 const initialValue = [
   {
     type: ElementType.PARAGRAPH,
-    children: [{ text: "变量类型示例：" }],
-  },
-  // 字符串类型变量
-  {
-    type: ElementType.VARIABLE,
-    children: [{ text: "userName" }],
-    valueType: VariableValueType.STRING,
-  },
-  {
-    type: ElementType.CHARACTER,
-    children: [{ text: " = " }],
-  },
-  {
-    type: ElementType.STRING,
-    children: [{ text: '"John"' }],
-    value: "John",
-  },
-  {
-    type: ElementType.PARAGRAPH,
-    children: [{ text: "" }], // 换行
-  },
-  // 数字类型变量
-  {
-    type: ElementType.VARIABLE,
-    children: [{ text: "age" }],
-    valueType: VariableValueType.NUMBER,
-  },
-  {
-    type: ElementType.CHARACTER,
-    children: [{ text: " = " }],
-  },
-  {
-    type: ElementType.NUMBER,
-    children: [{ text: "25" }],
-    value: 25,
-  },
-  {
-    type: ElementType.PARAGRAPH,
-    children: [{ text: "" }], // 换行
-  },
-  // 单值记录类型变量
-  {
-    type: ElementType.VARIABLE,
-    children: [{ text: "user" }],
-    valueType: VariableValueType.SINGLE_RECORD,
-    schema: "UserSchema",
-  },
-  {
-    type: ElementType.PARAGRAPH,
-    children: [{ text: "" }], // 换行
-  },
-  // 多值记录类型变量
-  {
-    type: ElementType.VARIABLE,
-    children: [{ text: "users" }],
-    valueType: VariableValueType.MULTI_RECORD,
-    schema: "UserSchema",
-  },
-  {
-    type: ElementType.PARAGRAPH,
-    children: [{ text: "" }], // 换行
-  },
-  // 函数调用示例
-  {
-    type: ElementType.FUNCTION_CALL,
-    name: "add",
-    children: [
-      {
-        type: ElementType.NUMBER,
-        children: [{ text: "2" }],
-        value: 2,
-      },
-      {
-        type: ElementType.CHARACTER,
-        children: [{ text: ", " }],
-      },
-      {
-        type: ElementType.NUMBER,
-        children: [{ text: "3" }],
-        value: 3,
-      },
-    ],
-    hoverText: "加法函数：计算两个数的和",
+    children: [],
   },
 ];
 
-export const SlateEditor = () => {
+export const SlateEditor = ({ ast }) => {
+  console.log("Compiler SlateEditor ast: ", ast);
   /**
    * 创建编辑器实例
    *
@@ -125,6 +44,10 @@ export const SlateEditor = () => {
   const [editor] = useState(() => withReact(createEditor()));
 
   const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    setValue(ast);
+  }, [ast]);
 
   /**
    * 渲染元素（Element）的函数
@@ -144,7 +67,10 @@ export const SlateEditor = () => {
    *
    * 返回值：返回一个 React 元素，用于渲染该 Element
    */
-  const renderElement = useCallback(({ attributes, children, element }) => {
+  const renderElement = useCallback((props) => {
+    console.log("Compiler renderElement running: ", props);
+    const { attributes, children, element } = props;
+
     // 根据元素类型决定如何渲染
     // 样式配置从 elementStyles 对象中读取，保持代码整洁
     // 支持 5 种数据类型：变量、数字、字符串、函数调用、字符
@@ -154,10 +80,14 @@ export const SlateEditor = () => {
         // 段落渲染为 <span> 标签（容器类型）
         const config = elementStyles.paragraph;
         return (
-          <span {...attributes} style={config?.style}>
+          <p {...attributes} style={config?.style}>
             {children}
-          </span>
+          </p>
         );
+      }
+
+      case "AddExpression": {
+        return <div>AddExpression</div>;
       }
 
       case ElementType.VARIABLE:
@@ -325,7 +255,7 @@ export const SlateEditor = () => {
        *
        * Slate 组件内部会管理文档的状态，当用户编辑时，状态会自动更新
        */}
-      <Slate editor={editor} initialValue={value} onChange={setValue}>
+      <Slate editor={editor} value={value} onChange={setValue}>
         {/**
          * Editable 组件
          *
